@@ -26,10 +26,10 @@ const Saved = () => {
             <List>
                 {books.map(book => (
                     <ListItem key={book._id}>
-                            <strong>
-                                {book.title} by {book.authors[0]}
-                            </strong>
-                        </ListItem>
+                        <strong>
+                            {book.title}
+                        </strong>
+                    </ListItem>
                 ))}
             </List>
         </>
