@@ -3,10 +3,6 @@ import { Link } from 'react-router-dom'
 import { Navbar, Nav} from 'react-bootstrap'
 
 
-// Pages
-import Search from "../pages/Search";
-import Saved from "../pages/Saved";
-
 const navigation = () => {
 
     return (
