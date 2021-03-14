@@ -13,6 +13,7 @@ function GoogleBooksSearch() {
     const [book, setBook] = useState("");
     const [result, setResult] = useState([]);
     const [apiKey, setApiKey] = useState("AIzaSyB_V20DDr3fhU_BPr1kxQ8Y8TLIRSzdqh8")
+    const [searchTitle, setSearchTitle] = useState("Best Seller List -- New York Times")
     const [saved, setSave] = useState();
 
 
@@ -34,7 +35,7 @@ function GoogleBooksSearch() {
                 const list = [];
                 (bookList.map((book) => {
                     list.push({
-                        "id":Math.floor(Math.random() * 1000),
+                        "id": Math.floor(Math.random() * 1000),
                         "volumeInfo": {
                             "authors": [book.author],
                             "description": book.description,
@@ -56,7 +57,7 @@ function GoogleBooksSearch() {
         event.preventDefault();
         axios.get("https://www.googleapis.com/books/v1/volumes?q=" + book + "&key=" + apiKey + "&maxResults=40")
             .then(data => {
-                console.log(data.data.items);
+                setSearchTitle(book);
                 setResult(data.data.items);
             })
     }
@@ -95,6 +96,7 @@ function GoogleBooksSearch() {
             <Searchbar handleChange={handleChange} handleSubmit={handleSubmit} />
             <div className="row">
                 <div className="col-sm-10 col-md-10 col-xl-10">
+                    <h2 style = {{textAlign:'center', marginTop: 50}}>{searchTitle}</h2>
                     <div className={'container mt-5'}>
                         {result.map(book => (
                             <Card style={{ marginTop: '10px', marginLeft: '30px', marginRight: '10px', }}>

@@ -2,15 +2,11 @@ import React from 'react'
 
 const Searchbar = ({ handleChange, handleSubmit }) => {
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="card-header main-search">
+        <form onSubmit={handleSubmit} style={{ marginLeft:'10%'}}>
+            <div className="card-header main-search ml-5">
                 <div className="row">
-                    <div className="col-12 col-md-6 col-xl-6 offset-md-2">
-                        <input onChange={handleChange} className="AutoFocus form-control" placeholder="Search by Author or Book Title..." type="text" />
-                    </div>
-                    <div className="">
-                        <input type="submit" value="Search" className="btn btn-primary search-btn" />
-                    </div>
+                    <input type="submit" value="Search" className="btn btn-primary search-btn" style={{ display: 'inline-block', width: '8em'}} />
+                    <input onChange={handleChange} style={{ height: '3em', width: '60%' }} className="AutoFocus form-control ml-2" placeholder="Search by Author or Book Title..." type="text" />
                 </div>
             </div>
         </form>
