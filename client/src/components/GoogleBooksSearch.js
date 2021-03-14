@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from 'axios';
-import { Card } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import API from '../utils/API';
 // import booksController from "../controllers/booksController";
 
@@ -35,8 +35,21 @@ function GoogleBooksSearch() {
         })
     }
 
+    function GetAuthors(authors) {
+
+        if (Object.keys(authors > 0)) {
+            let authorsArr = Object.values(authors)
+            const authorsList = authorsArr.map(author => {
+                return <p style = {{marginBottom :0}}>{author}</p>
+            })
+            return authorsList
+        } else {
+            return <p>No Listed Authors</p>
+        }
+    }
 
     return (
+
         <form onSubmit={handleSubmit}>
             <div className="card-header main-search">
                 <div className="row">
@@ -48,21 +61,26 @@ function GoogleBooksSearch() {
                     </div>
                 </div>
             </div>
-            <div className="container">
-                <div className="row">
-                    {result.map(book => (
-                        <div className="col-sm-2">
-                            <Card style={{ 'marginTop': '10px' }}>
-
-                                <Card.Img variant="top" src={book.volumeInfo.imageLinks !== undefined ? book.volumeInfo.imageLinks.thumbnail : ''} alt={book.title} />
+            <div className="row">
+                <div className="col-sm-8 col-md-8 col-xl-8">
+                    <div className={'container'}>
+                        {result.map(book => (
+                            <Card style={{ marginTop: '10px', marginLeft: '30px', marginRight: '10px', }}>
                                 <Card.Body>
-                                    <h5 className="card-title">Card title</h5>
-                                    <a className="btn btn-primary">Know more</a>
+                                    <Card.Title style = {{fontSize:34}}>{book.volumeInfo.title}</Card.Title>
+                                    <div style={{ display: 'flex' }}>
+                                        <Card.Text>
+                                            <p>{(book.volumeInfo.description) ? book.volumeInfo.description.substring(0, 250) : 'No Description has been found'}</p>
+                                            <h4>Authors</h4>
+                                            <GetAuthors {...book.volumeInfo.authors} />
+                                        </Card.Text>
+                                        <img style={{ marginLeft: '100px', marginRight: '50px',height: '35vh'}} src={book.volumeInfo.imageLinks !== undefined ? book.volumeInfo.imageLinks.thumbnail : ''} alt={book.title} />
+                                    </div>
+                                    <Button variant ='primary' onClick={() => handleSave(book.id)}>Save</Button>
                                 </Card.Body>
-                                <button onClick={() => handleSave(book.id)}>Save</button>
                             </Card>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </form>
