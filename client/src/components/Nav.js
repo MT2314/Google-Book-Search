@@ -9,7 +9,7 @@ const navigation = () => {
         <div>
 
             <Navbar collapseOnSelect expand="lg">
-                <h1 href="/" style = {{textAlign:'center', fontSize:'8em', width:'100%'}}>Book Search</h1>
+                <h1 href="/" style = {{textAlign:'center', fontSize:'8em', width:'100%', marginTop:'4%'}}>Book Search</h1>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mt-3 ml-3" style={{position:"absolute", top:0, left:0}}>

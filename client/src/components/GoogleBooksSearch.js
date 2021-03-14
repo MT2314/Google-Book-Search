@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { Card, Button } from 'react-bootstrap';
 import API from '../utils/API';
-// import booksController from "../controllers/booksController";
+import { HiOutlineSave } from 'react-icons/hi';
+import { IconContext } from "react-icons";
+
 
 // Components
 import Searchbar from '../components/Searchbar';
@@ -76,6 +78,7 @@ function GoogleBooksSearch() {
             link: previewLink,
             title: title
         })
+        showSavedIcon(id)
     }
 
     function GetAuthors(authors) {
@@ -91,15 +94,33 @@ function GoogleBooksSearch() {
         }
     }
 
+    function showSavedIcon(id) {
+        const toggleCheck = result.filter(result => result.id === id);
+        if (toggleCheck.length) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     return (
         <div>
             <Searchbar handleChange={handleChange} handleSubmit={handleSubmit} />
             <div className="row">
                 <div className="col-sm-10 col-md-10 col-xl-10">
-                    <h2 style = {{textAlign:'center', marginTop: 50}}>{searchTitle}</h2>
+                    <h2 style={{ textAlign: 'center', marginTop: 50 }}>{searchTitle}</h2>
                     <div className={'container mt-5'}>
                         {result.map(book => (
                             <Card style={{ marginTop: '10px', marginLeft: '30px', marginRight: '10px', }}>
+                                {() => {
+                                    if (showSavedIcon(book.id)) {
+                                        return <IconContext.Provider value={{ color: "green", size: '3em', className: "global-class-name mr-3 mt-3" }}>
+                                            <div>
+                                                <HiOutlineSave style={{ float: 'right' }} />
+                                            </div>
+                                        </IconContext.Provider>
+                                        }
+                                }};
                                 <Card.Body>
                                     <Card.Title style={{ fontSize: 34 }}>{book.volumeInfo.title}</Card.Title>
                                     <div style={{ display: 'flex' }}>
