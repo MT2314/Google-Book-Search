@@ -8,7 +8,8 @@ const bookSchema = new Schema({
   image: { type: String},
   link: { type: String},
   read: {type: Boolean, default: false},
-  myrating: {type: Number}
+  favourite: {type: Boolean, default: false}
+
 });
 
 const Book = mongoose.model("Book", bookSchema);

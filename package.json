@@ -25,6 +25,7 @@
     "if-env": "^1.0.4",
     "mdbreact": "^5.0.1",
     "mongoose": "^5.12.0",
+    "react-icons": "^4.2.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0"
   }

@@ -18,9 +18,14 @@ export default {
     return axios.post("/api/books", bookData);
   },
   // Updates a book in the database
-  updateBook: function (id, readUpdate) {
+  updateRead: function (id, readUpdate) {
     return axios.put("/api/books/" + id,{
       read:true
+    });
+  },
+  updateFavourite: function (id, readUpdate) {
+    return axios.put("/api/books/" + id,{
+      favourite:true
     });
   }
 };
