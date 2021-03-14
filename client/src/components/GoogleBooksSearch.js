@@ -30,12 +30,13 @@ function GoogleBooksSearch() {
     }
     function handleSave(id) {
         const selectedSave = result.filter((book) => book.id === id);
-        const { authors, description, image, link, title } = selectedSave[0].volumeInfo;
+        const { authors, description, imageLinks, previewLink, title } = selectedSave[0].volumeInfo;
+        console.log(selectedSave[0].volumeInfo)
         API.saveBook({
             authors: authors,
             description: description,
-            image: image,
-            link: link,
+            image: imageLinks.smallThumbnail,
+            link: previewLink,
             title: title
         })
     }
@@ -58,7 +59,7 @@ function GoogleBooksSearch() {
             <Searchbar handleChange = {handleChange} handleSubmit = {handleSubmit}/>
             <div className="row">
                 <div className="col-sm-10 col-md-10 col-xl-10">
-                    <div className={'container'}>
+                    <div className={'container mt-5'}>
                         {result.map(book => (
                             <Card style={{ marginTop: '10px', marginLeft: '30px', marginRight: '10px', }}>
                                 <Card.Body>

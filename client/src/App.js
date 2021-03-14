@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import { HashRouter as Router, Route } from 'react-router-dom'
+import { HashRouter as Router, Route,Switch } from 'react-router-dom'
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.css';
-import { __RouterContext } from "react-router";
 
 // Components
 import Nav from "./components/Nav";
-import GoogleBooksSearch from "./components/GoogleBooksSearch";  
 
 
 // Pages
@@ -18,9 +16,10 @@ function App() {
     <div>
       <Router>
         <Nav />
+        <Switch>
         <Route exact path="/" component={Search} />
-        <Route path="/saved" component={Saved} />
-        <GoogleBooksSearch></GoogleBooksSearch> 
+        <Route exact path="/saved" component={Saved} />
+        </Switch>
       </Router>
     </div>
   );
