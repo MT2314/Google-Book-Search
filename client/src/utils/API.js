@@ -23,9 +23,9 @@ export default {
       read:true
     });
   },
-  updateFavourite: function (id, readUpdate) {
-    return axios.put("/api/books/" + id,{
-      favourite:true
+  updateFavourite: function (id, value) {
+    return axios.put("/api/books/" + id,value,{
+      favourite:value
     });
   }
 };

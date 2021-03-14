@@ -3,6 +3,7 @@ import API from "../utils/API";
 import { List, ListItem } from "../components/List";
 import { Card, Button } from 'react-bootstrap';
 import { FaHeart } from 'react-icons/fa';
+import { FiDelete,FiHeart } from 'react-icons/fi';
 import { IconContext } from "react-icons";
 
 
@@ -12,6 +13,7 @@ import { IconContext } from "react-icons";
 const Saved = () => {
 
     const [books, setBooks] = useState([])
+    const [currentbook, setCurrentBook] = useState()
     // Load all books and store them with setBooks
     useEffect(() => {
         loadBooks()
@@ -36,13 +38,22 @@ const Saved = () => {
     };
 
     // Set Favourite
-    function setFavourite(id) {
+    function setFavourite(id,currentFavourite) {
+
         API.updateFavourite(id, {
-            favourite: true
+            favourite:!currentFavourite
         })
             .then(() => loadBooks())
             .catch(err => console.log(err));
     };
+
+    // Remove
+    function removeSave(id) {
+        API.deleteBook(id)
+            .then(() => loadBooks())
+            .catch(err => console.log(err));
+    }
+
 
     function GetAuthors(authors) {
 
@@ -62,13 +73,13 @@ const Saved = () => {
             <h1 style={{ textAlign: 'center' }}>Your Saved Books</h1>
             <div className="row ml-4 mt-5">
                 <div className="col-sm-5 col-md-5 col-xl-5">
-                    <h4 className={'mt-3'} >Books I Want To Read</h4>
-                    <div className={'container mt-5'}>
+                    <div className={'container mt-2'}>
+                        <h3 className={'mt-3'} >Books I Want To Read</h3>
                         {books.map(book => (
                             (book.read === false) && <div>
                                 <IconContext.Provider value={{ color: "red", size: '1.5em', className: "global-class-name", style: { position: 'relative', marginLeft: '98%', top: 15, zIndex: 2 } }}>
                                     <div>
-                                        <FaHeart onClick={() => (setFavourite(book._id))} />
+                                        <FiDelete onClick={() => (removeSave(book._id))} />
                                     </div>
                                 </IconContext.Provider>
                                 <ListItem key={book._id} >
@@ -89,24 +100,43 @@ const Saved = () => {
 
                 <div className="col-sm-3 col-md-3 col-xl-3">
                     <div className={'container mt-3'}>
-                        <List>
-                            <h4 className={'mt-3'} >My Favourites</h4>
-                            {books.map(book => (
-                                (book.favourite === true) && <ListItem key={book._id}>
-                                    <strong>
-                                        {book.title}
-                                    </strong>
-                                </ListItem>
-                            ))}
-                        </List>
+                        <div className={'container mt-3'} style={{ marginBottom: '20%' }}>
+                            <List>
+
+                                <h4 className={'mt-3'} >My Favourites      <FaHeart style={{ color: 'red' }} /> </h4>
+                                {books.map(book => (
+                                    (book.favourite === true) && <ListItem key={book._id}>
+                                        <strong>
+                                            {book.title}
+                                        </strong>
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </div>
+                    </div>
+                </div >
+                <div className="col-sm-3 col-md-3 col-xl-3">
+                    <div className={'container mt-3'}>
                         <List>
                             <h4 className={'mt-3'} >Books I Have Read</h4>
                             {books.map(book => (
-                                (book.read === true) && <ListItem key={book._id}>
-                                    <strong>
-                                        {book.title}
-                                    </strong>
-                                </ListItem>
+                                (book.read === true) && <div>
+                                    <IconContext.Provider value={{ color: "red", size: '1.5em', className: "global-class-name", style: { position: 'relative', marginLeft: '98%', top: 15, zIndex: 2 } }}>
+                                        {book.favourite === false ?
+                                            <div>
+                                                {<FiHeart  onClick={() => (setFavourite(book._id,book.favourite))} /> }
+                                            </div> :
+                                            <div>
+                                                <FaHeart onClick={() => (setFavourite(book._id,book.favourite))} />
+                                            </div>
+                                        }
+                                    </IconContext.Provider>
+                                    <ListItem key={book._id}>
+                                        <strong>
+                                            {book.title}
+                                        </strong>
+                                    </ListItem>
+                                </div>
                             ))}
                         </List>
                     </div>
