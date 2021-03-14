@@ -3,7 +3,7 @@ import React from 'react'
 const Search = () => {
     return (
         <>
-            <h1>Welcome to Search</h1>
+            <h1 style = {{ marginLeft: '18%', marginTop:'50px'}}>Search for a Book</h1>
         </>
     )
 }

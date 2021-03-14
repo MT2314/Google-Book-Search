@@ -4,6 +4,11 @@ import { Card, Button } from 'react-bootstrap';
 import API from '../utils/API';
 // import booksController from "../controllers/booksController";
 
+// Components
+import Searchbar from '../components/Searchbar';
+
+//Pages
+
 function GoogleBooksSearch() {
     const [book, setBook] = useState("");
     const [result, setResult] = useState([]);
@@ -40,7 +45,7 @@ function GoogleBooksSearch() {
         if (Object.keys(authors > 0)) {
             let authorsArr = Object.values(authors)
             const authorsList = authorsArr.map(author => {
-                return <p style = {{marginBottom :0}}>{author}</p>
+                return <p style={{ marginBottom: 0 }}>{author}</p>
             })
             return authorsList
         } else {
@@ -49,41 +54,31 @@ function GoogleBooksSearch() {
     }
 
     return (
-
-        <form onSubmit={handleSubmit}>
-            <div className="card-header main-search">
-                <div className="row">
-                    <div className="col-12 col-md-3 col-xl-3">
-                        <input onChange={handleChange} className="AutoFocus form-control" placeholder="Type something..." type="text" />
-                    </div>
-                    <div className="ml-auto">
-                        <input type="submit" value="Search" className="btn btn-primary search-btn" />
-                    </div>
-                </div>
-            </div>
+        <div>
+            <Searchbar handleChange = {handleChange} handleSubmit = {handleSubmit}/>
             <div className="row">
-                <div className="col-sm-8 col-md-8 col-xl-8">
+                <div className="col-sm-10 col-md-10 col-xl-10">
                     <div className={'container'}>
                         {result.map(book => (
                             <Card style={{ marginTop: '10px', marginLeft: '30px', marginRight: '10px', }}>
                                 <Card.Body>
-                                    <Card.Title style = {{fontSize:34}}>{book.volumeInfo.title}</Card.Title>
+                                    <Card.Title style={{ fontSize: 34 }}>{book.volumeInfo.title}</Card.Title>
                                     <div style={{ display: 'flex' }}>
                                         <Card.Text>
                                             <p>{(book.volumeInfo.description) ? book.volumeInfo.description.substring(0, 250) : 'No Description has been found'}</p>
                                             <h4>Authors</h4>
                                             <GetAuthors {...book.volumeInfo.authors} />
                                         </Card.Text>
-                                        <img style={{ marginLeft: '100px', marginRight: '50px',height: '35vh'}} src={book.volumeInfo.imageLinks !== undefined ? book.volumeInfo.imageLinks.thumbnail : ''} alt={book.title} />
+                                        <img style={{ marginLeft: '100px', marginRight: '50px', height: '35vh' }} src={book.volumeInfo.imageLinks !== undefined ? book.volumeInfo.imageLinks.thumbnail : ''} alt={book.title} />
                                     </div>
-                                    <Button variant ='primary' onClick={() => handleSave(book.id)}>Save</Button>
+                                    <Button variant='primary' onClick={() => handleSave(book.id)}>Save</Button>
                                 </Card.Body>
                             </Card>
                         ))}
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
 
     )
 }
