@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { Card, Button } from 'react-bootstrap';
 import API from '../utils/API';
@@ -16,10 +16,42 @@ function GoogleBooksSearch() {
     const [saved, setSave] = useState();
 
 
+    useEffect(() => {
+        topBooks();
+    }, []);
+
     function handleChange(event) {
         const book = event.target.value;
         setBook(book);
     }
+    // New York Times
+    function topBooks() {
+        axios.get("https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=694MbzN7OXrK12FTyAjrN8Zoih4ay72d")
+            .then(data => {
+                const bookFile = JSON.parse(data.request.response);
+                const bookList = bookFile.results.books;
+                console.log(bookList)
+                const list = [];
+                (bookList.map((book) => {
+                    list.push({
+                        "id":Math.floor(Math.random() * 1000),
+                        "volumeInfo": {
+                            "authors": [book.author],
+                            "description": book.description,
+                            "imageLinks": {
+                                "thumbnail": book.book_image,
+                            },
+                            "link": book.book_uri,
+                            "title": book.title
+                        }
+                    }
+                    )
+                }))
+                setResult(list);
+                console.log(list)
+            })
+    }
+
     function handleSubmit(event) {
         event.preventDefault();
         axios.get("https://www.googleapis.com/books/v1/volumes?q=" + book + "&key=" + apiKey + "&maxResults=40")
@@ -28,14 +60,18 @@ function GoogleBooksSearch() {
                 setResult(data.data.items);
             })
     }
+
+
     function handleSave(id) {
+        console.log(result)
         const selectedSave = result.filter((book) => book.id === id);
+        console.log(selectedSave);
         const { authors, description, imageLinks, previewLink, title } = selectedSave[0].volumeInfo;
         console.log(selectedSave[0].volumeInfo)
         API.saveBook({
             authors: authors,
             description: description,
-            image: imageLinks.smallThumbnail,
+            image: imageLinks.thumbnail,
             link: previewLink,
             title: title
         })
@@ -56,7 +92,7 @@ function GoogleBooksSearch() {
 
     return (
         <div>
-            <Searchbar handleChange = {handleChange} handleSubmit = {handleSubmit}/>
+            <Searchbar handleChange={handleChange} handleSubmit={handleSubmit} />
             <div className="row">
                 <div className="col-sm-10 col-md-10 col-xl-10">
                     <div className={'container mt-5'}>
