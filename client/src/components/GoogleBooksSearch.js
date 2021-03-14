@@ -107,7 +107,7 @@ function GoogleBooksSearch() {
         <div>
             <Searchbar handleChange={handleChange} handleSubmit={handleSubmit} />
             <div className="row">
-                <div className="col-sm-10 col-md-10 col-xl-10">
+                <div className="col-sm-12 col-md-12 col-xl-12">
                     <h2 style={{ textAlign: 'center', marginTop: 50 }}>{searchTitle}</h2>
                     <div className={'container mt-5'}>
                         {result.map(book => (
