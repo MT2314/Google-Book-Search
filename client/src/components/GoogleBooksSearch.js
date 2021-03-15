@@ -16,7 +16,6 @@ function GoogleBooksSearch() {
     const [result, setResult] = useState([]);
     const [apiKey, setApiKey] = useState("AIzaSyB_V20DDr3fhU_BPr1kxQ8Y8TLIRSzdqh8")
     const [searchTitle, setSearchTitle] = useState("Best Seller List -- New York Times")
-    const [saved, setSave] = useState();
 
 
     useEffect(() => {
@@ -38,6 +37,7 @@ function GoogleBooksSearch() {
                 (bookList.map((book) => {
                     list.push({
                         "id": Math.floor(Math.random() * 1000),
+                        "saveIcon": '0.15',
                         "volumeInfo": {
                             "authors": [book.author],
                             "description": book.description,
@@ -69,7 +69,7 @@ function GoogleBooksSearch() {
         console.log(result)
         const selectedSave = result.filter((book) => book.id === id);
         console.log(selectedSave);
-        const { authors, description, imageLinks, previewLink, title } = selectedSave[0].volumeInfo;
+        const { authors, description, imageLinks, previewLink, title, saveIcon } = selectedSave[0].volumeInfo;
         console.log(selectedSave[0].volumeInfo)
         API.saveBook({
             authors: authors,
@@ -78,7 +78,6 @@ function GoogleBooksSearch() {
             link: previewLink,
             title: title
         })
-        showSavedIcon(id)
     }
 
     function GetAuthors(authors) {
@@ -94,14 +93,14 @@ function GoogleBooksSearch() {
         }
     }
 
-    function showSavedIcon(id) {
-        const toggleCheck = result.filter(result => result.id === id);
-        if (toggleCheck.length) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    // function showSavedIcon(id) {
+    //     const toggleCheck = result.filter(result => result.id === id);
+    //     if (toggleCheck.length) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 
     return (
         <div>
@@ -112,15 +111,11 @@ function GoogleBooksSearch() {
                     <div className={'container mt-5'}>
                         {result.map(book => (
                             <Card style={{ marginTop: '10px', marginLeft: '30px', marginRight: '10px', }}>
-                                {() => {
-                                    if (showSavedIcon(book.id)) {
-                                        return <IconContext.Provider value={{ color: "green", size: '3em', className: "global-class-name mr-3 mt-3" }}>
-                                            <div>
-                                                <HiOutlineSave style={{ float: 'right' }} />
-                                            </div>
-                                        </IconContext.Provider>
-                                        }
-                                }};
+                                <IconContext.Provider value={{ color: 'green', size: '3em', className: "global-class-name mr-3 mt-3" }}>
+                                    <div>
+                                        <HiOutlineSave style={{ float: 'right', opacity: 0 }} />
+                                    </div>
+                                </IconContext.Provider>
                                 <Card.Body>
                                     <Card.Title style={{ fontSize: 34 }}>{book.volumeInfo.title}</Card.Title>
                                     <div style={{ display: 'flex' }}>

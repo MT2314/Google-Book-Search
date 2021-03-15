@@ -3,6 +3,7 @@ import { HashRouter as Router, Route,Switch } from 'react-router-dom'
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.css';
 
+
 // Components
 import Nav from "./components/Nav";
 
