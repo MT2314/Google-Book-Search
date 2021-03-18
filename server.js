@@ -4,6 +4,10 @@ const MONGOOSE = require('mongoose');
 const PORT = process.env.PORT || 3001;
 const app = express();
 
+const dotenv = require('dotenv');
+
+dotenv.config({ path: './env' })
+
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -21,6 +25,8 @@ MONGOOSE.connect(
   process.env.MONGODB_URI || "mongodb://localhost/googlebooks",
   { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }
 );
+
+
 
 app.listen(PORT, () => {
   console.log(`🌎 ==> API server now on port ${PORT}!`);
