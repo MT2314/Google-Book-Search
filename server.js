@@ -1,12 +1,12 @@
 const express = require("express");
 const routes = require("./routes");
-const MONGOOSE = require('mongoose');
+const MONGOOSE = require("mongoose");
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 
-dotenv.config({ path: './env' })
+dotenv.config({ path: "./env" });
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
@@ -19,14 +19,13 @@ if (process.env.NODE_ENV === "production") {
 // Add routes, both API and view
 app.use(routes);
 
-
 // Connect to the Mongo DB
-MONGOOSE.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/googlebooks",
-  { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }
-);
-
-
+MONGOOSE.connect(process.env.ATLAS_URI || "mongodb://localhost/googlebooks", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+});
 
 app.listen(PORT, () => {
   console.log(`🌎 ==> API server now on port ${PORT}!`);
